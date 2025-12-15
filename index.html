@@ -1,1 +1,113 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <title>Per Anna</title>
+
+    <meta name="theme-color" content="#0b0b0c" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+
+    <!-- iOS home screen -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="apple-touch-icon" href="./pwa-192.png" />
+
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+
+  <body>
+    <div class="page">
+      <header class="header">
+        <h1>Per Anna</h1>
+        <p class="sub">Un posto piccolo, solo nostro.</p>
+      </header>
+
+      <nav class="tabs">
+        <button class="tab active" data-tab="oggi">Oggi</button>
+        <button class="tab" data-tab="noi">Noi</button>
+        <button class="tab" data-tab="sos">SOS</button>
+      </nav>
+
+      <main class="main">
+        <!-- OGGI -->
+        <section class="card" id="tab-oggi">
+          <h2>Il bigliettino</h2>
+          <p class="big" id="todayMsg"></p>
+
+          <div class="row">
+            <button class="btn" id="btnAnother">Dammi un altro</button>
+          </div>
+
+          <hr />
+
+          <h3>Aggiungi bigliettino</h3>
+          <div class="row">
+            <input class="input" id="jarInput" placeholder="Scrivi una frase..." />
+            <button class="btn" id="btnAddJar">Aggiungi</button>
+          </div>
+
+          <p class="hint">I bigliettini restano salvati su questo telefono.</p>
+        </section>
+
+        <!-- NOI -->
+        <section class="card hidden" id="tab-noi">
+          <h2>Il nostro museo</h2>
+          <p class="p">Piccoli momenti, messi in ordine. Non per nostalgia, ma per presenza.</p>
+
+          <div id="timelineList" class="list"></div>
+
+          <hr />
+
+          <h3>Aggiungi ricordo</h3>
+          <div class="stack">
+            <input class="input" id="tlTitle" placeholder="Titolo" />
+            <input class="input" id="tlDate" placeholder="Data (es. 2025-12-15)" />
+            <textarea class="textarea" id="tlText" placeholder="Testo"></textarea>
+            <button class="btn" id="btnAddTimeline">Salva ricordo</button>
+          </div>
+        </section>
+
+        <!-- SOS -->
+        <section class="card hidden" id="tab-sos">
+          <h2>Se oggi pesa</h2>
+
+          <div class="list">
+            <div class="entry">
+              <div class="entryTop"><strong>Ho ansia</strong></div>
+              <p class="p">
+                Respira: 4 secondi in → 4 fermi → 6 fuori. Ripeti 5 volte. Poi scrivimi anche una frase piccola.
+              </p>
+            </div>
+
+            <div class="entry">
+              <div class="entryTop"><strong>Mi manchi</strong></div>
+              <p class="p">
+                Io sono qui. Apri “Noi” e scegli un momento. Se vuoi, mandami solo un punto.
+              </p>
+            </div>
+
+            <div class="entry">
+              <div class="entryTop"><strong>Ho bisogno di ridere</strong></div>
+              <p class="p">
+                Qui puoi mettere le vostre battute interne o cose sceme che funzionano sempre.
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <span>Safari/Chrome → Condividi → “Aggiungi a Home”.</span>
+      </footer>
+    </div>
+
+    <script src="./app.js"></script>
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js"));
+      }
+    </script>
+  </body>
+</html>
