@@ -7,100 +7,318 @@
     <title>Per Anna</title>
 
     <meta name="theme-color" content="#0b0b0c" />
-    <link rel="manifest" href="./manifest.webmanifest" />
-
-    <!-- iOS home screen -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <link rel="apple-touch-icon" href="./pwa-192.png" />
 
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="./pwa-192.png" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
 
   <body>
-    <div class="page">
-      <header class="header">
-        <h1>Per Anna</h1>
-        <p class="sub">Un posto piccolo, solo nostro.</p>
+    <div class="app">
+      <header class="topbar">
+        <div class="topbar__left">
+          <div class="brand">
+            <div class="brand__title" id="brandTitle">Per Anna</div>
+            <div class="brand__subtitle" id="brandSubtitle">Un posto piccolo, solo nostro.</div>
+          </div>
+        </div>
+        <div class="topbar__right">
+          <button class="iconbtn" id="btnQuickAdd" title="Aggiungi">
+            +
+          </button>
+          <button class="iconbtn" id="btnOpenSettings" title="Impostazioni">
+            ⚙
+          </button>
+        </div>
       </header>
-
-      <nav class="tabs">
-        <button class="tab active" data-tab="oggi">Oggi</button>
-        <button class="tab" data-tab="noi">Noi</button>
-        <button class="tab" data-tab="sos">SOS</button>
-      </nav>
 
       <main class="main">
         <!-- OGGI -->
-        <section class="card" id="tab-oggi">
-          <h2>Il bigliettino</h2>
-          <p class="big" id="todayMsg"></p>
+        <section class="view" data-view="oggi">
+          <div class="card hero">
+            <div class="card__head">
+              <h2>Oggi</h2>
+              <span class="chip">Bigliettino</span>
+            </div>
+            <p class="hero__text" id="todayMsg"></p>
 
-          <div class="row">
-            <button class="btn" id="btnAnother">Dammi un altro</button>
+            <div class="row">
+              <button class="btn" id="btnAnother">Dammi un altro</button>
+              <button class="btn btn--ghost" id="btnShowJar">Gestisci bigliettini</button>
+            </div>
           </div>
 
-          <hr />
-
-          <h3>Aggiungi bigliettino</h3>
-          <div class="row">
-            <input class="input" id="jarInput" placeholder="Scrivi una frase..." />
-            <button class="btn" id="btnAddJar">Aggiungi</button>
-          </div>
-
-          <p class="hint">I bigliettini restano salvati su questo telefono.</p>
-        </section>
-
-        <!-- NOI -->
-        <section class="card hidden" id="tab-noi">
-          <h2>Il nostro museo</h2>
-          <p class="p">Piccoli momenti, messi in ordine. Non per nostalgia, ma per presenza.</p>
-
-          <div id="timelineList" class="list"></div>
-
-          <hr />
-
-          <h3>Aggiungi ricordo</h3>
-          <div class="stack">
-            <input class="input" id="tlTitle" placeholder="Titolo" />
-            <input class="input" id="tlDate" placeholder="Data (es. 2025-12-15)" />
-            <textarea class="textarea" id="tlText" placeholder="Testo"></textarea>
-            <button class="btn" id="btnAddTimeline">Salva ricordo</button>
-          </div>
-        </section>
-
-        <!-- SOS -->
-        <section class="card hidden" id="tab-sos">
-          <h2>Se oggi pesa</h2>
-
-          <div class="list">
-            <div class="entry">
-              <div class="entryTop"><strong>Ho ansia</strong></div>
-              <p class="p">
-                Respira: 4 secondi in → 4 fermi → 6 fuori. Ripeti 5 volte. Poi scrivimi anche una frase piccola.
+          <div class="grid2">
+            <div class="card">
+              <div class="card__head">
+                <h3>Un dettaglio bello</h3>
+                <span class="chip chip--soft">Veloci</span>
+              </div>
+              <p class="muted">
+                Scrivilo qui e resta salvato. Serve per allenare lo sguardo sulle cose piccole.
               </p>
+              <textarea class="textarea" id="microGood" placeholder="Oggi mi è piaciuto…"></textarea>
+              <div class="row">
+                <button class="btn" id="btnSaveMicro">Salva</button>
+                <button class="btn btn--ghost" id="btnLoadMicro">Ricarica ultimo</button>
+              </div>
             </div>
 
-            <div class="entry">
-              <div class="entryTop"><strong>Mi manchi</strong></div>
-              <p class="p">
-                Io sono qui. Apri “Noi” e scegli un momento. Se vuoi, mandami solo un punto.
-              </p>
+            <div class="card">
+              <div class="card__head">
+                <h3>Messaggio veloce</h3>
+                <span class="chip chip--soft">Invia</span>
+              </div>
+              <p class="muted">Lei può scrivere una frase e inviarla con Share (o copia/incolla).</p>
+              <textarea class="textarea" id="quickMsg" placeholder="Scrivi una frase per Kenin…"></textarea>
+              <div class="row">
+                <button class="btn" id="btnSendQuick">Invia</button>
+                <button class="btn btn--ghost" id="btnCopyQuick">Copia</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- MUSEO -->
+        <section class="view hidden" data-view="museo">
+          <div class="card">
+            <div class="card__head">
+              <h2>Museo</h2>
+              <span class="chip">Ricordi</span>
+            </div>
+            <p class="muted">
+              Una timeline dei momenti. Ogni voce può avere testo e foto.
+            </p>
+
+            <div class="toolbar">
+              <input class="input" id="museumSearch" placeholder="Cerca nel museo…" />
+              <button class="btn" id="btnAddMuseum">Aggiungi</button>
             </div>
 
-            <div class="entry">
-              <div class="entryTop"><strong>Ho bisogno di ridere</strong></div>
-              <p class="p">
-                Qui puoi mettere le vostre battute interne o cose sceme che funzionano sempre.
-              </p>
+            <div class="list" id="museumList"></div>
+          </div>
+        </section>
+
+        <!-- LOVE JOURNAL -->
+        <section class="view hidden" data-view="journal">
+          <div class="card">
+            <div class="card__head">
+              <h2>Love Journal</h2>
+              <span class="chip">Cronologico</span>
+            </div>
+            <p class="muted">
+              Un diario in ordine di data: cose belle fatte insieme, pensieri, momenti. Foto incluse.
+            </p>
+
+            <div class="toolbar">
+              <input class="input" id="journalSearch" placeholder="Cerca nel journal…" />
+              <select class="select" id="journalSort">
+                <option value="desc">Più recenti</option>
+                <option value="asc">Più vecchi</option>
+              </select>
+              <button class="btn" id="btnAddJournal">Aggiungi</button>
+            </div>
+
+            <div class="list" id="journalList"></div>
+          </div>
+        </section>
+
+        <!-- MESSAGGI -->
+        <section class="view hidden" data-view="messaggi">
+          <div class="card">
+            <div class="card__head">
+              <h2>Messaggi</h2>
+              <span class="chip">Da lei a te</span>
+            </div>
+            <p class="muted">
+              Qui lei scrive e invia. Senza backend: usa Share/WhatsApp/email. La cronologia resta sul suo telefono.
+            </p>
+
+            <div class="stack">
+              <input class="input" id="fromName" placeholder="Firma (es. Anna)" />
+              <textarea class="textarea" id="messageText" placeholder="Scrivi la frase…"></textarea>
+
+              <div class="photoRow">
+                <label class="filebtn">
+                  Aggiungi foto
+                  <input type="file" accept="image/*" id="messagePhoto" />
+                </label>
+                <button class="btn btn--ghost" id="btnClearMessagePhoto">Rimuovi foto</button>
+              </div>
+
+              <div class="thumbs" id="messagePhotoPreview"></div>
+
+              <div class="row">
+                <button class="btn" id="btnSendMessage">Invia</button>
+                <button class="btn btn--ghost" id="btnCopyMessage">Copia</button>
+              </div>
+            </div>
+
+            <hr class="sep" />
+
+            <div class="card__head">
+              <h3>Cronologia (locale)</h3>
+              <span class="chip chip--soft">Solo questo device</span>
+            </div>
+            <div class="list" id="messagesList"></div>
+          </div>
+        </section>
+
+        <!-- IMPOSTAZIONI -->
+        <section class="view hidden" data-view="settings">
+          <div class="card">
+            <div class="card__head">
+              <h2>Impostazioni</h2>
+              <span class="chip">Backup</span>
+            </div>
+
+            <div class="grid2">
+              <div class="card card--inner">
+                <h3>Destinazione invio</h3>
+                <p class="muted">
+                  Scegli come inviare: Share è consigliato. In alternativa WhatsApp/email precompilati.
+                </p>
+
+                <label class="label">Numero WhatsApp (opzionale, formato internazionale senza +)</label>
+                <input class="input" id="toWhatsapp" placeholder="es. 4179xxxxxxx" />
+
+                <label class="label">Email (opzionale)</label>
+                <input class="input" id="toEmail" placeholder="es. kenin@email.com" />
+
+                <label class="label">Titolo app</label>
+                <input class="input" id="setTitle" placeholder="Per Anna" />
+
+                <label class="label">Sottotitolo</label>
+                <input class="input" id="setSubtitle" placeholder="Un posto piccolo, solo nostro." />
+
+                <div class="row">
+                  <button class="btn" id="btnSaveSettings">Salva</button>
+                  <button class="btn btn--ghost" id="btnResetApp">Reset (attenzione)</button>
+                </div>
+              </div>
+
+              <div class="card card--inner">
+                <h3>Backup e ripristino</h3>
+                <p class="muted">
+                  Export crea un file .json. Import lo ripristina. Utile per trasferire dati tra i vostri telefoni.
+                </p>
+
+                <div class="stack">
+                  <button class="btn" id="btnExport">Esporta backup</button>
+
+                  <label class="filebtn">
+                    Importa backup
+                    <input type="file" accept="application/json" id="btnImport" />
+                  </label>
+
+                  <p class="muted">
+                    Nota: se aggiungete molte foto, l’export può diventare pesante.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </section>
       </main>
 
-      <footer class="footer">
-        <span>Safari/Chrome → Condividi → “Aggiungi a Home”.</span>
-      </footer>
+      <nav class="bottombar">
+        <button class="navbtn active" data-nav="oggi">Oggi</button>
+        <button class="navbtn" data-nav="museo">Museo</button>
+        <button class="navbtn" data-nav="journal">Journal</button>
+        <button class="navbtn" data-nav="messaggi">Messaggi</button>
+        <button class="navbtn" data-nav="settings">Impostazioni</button>
+      </nav>
+    </div>
+
+    <!-- MODAL: JAR -->
+    <div class="modal hidden" id="modalJar">
+      <div class="modal__sheet">
+        <div class="modal__head">
+          <strong>Bigliettini</strong>
+          <button class="iconbtn" id="btnCloseJar">×</button>
+        </div>
+
+        <div class="stack">
+          <div class="row">
+            <input class="input" id="jarInput" placeholder="Scrivi un nuovo bigliettino…" />
+            <button class="btn" id="btnAddJar">Aggiungi</button>
+          </div>
+
+          <div class="list" id="jarList"></div>
+        </div>
+      </div>
+      <div class="modal__backdrop" data-close="jar"></div>
+    </div>
+
+    <!-- MODAL: ADD/EDIT ENTRY -->
+    <div class="modal hidden" id="modalEntry">
+      <div class="modal__sheet modal__sheet--wide">
+        <div class="modal__head">
+          <strong id="entryModalTitle">Nuova voce</strong>
+          <button class="iconbtn" id="btnCloseEntry">×</button>
+        </div>
+
+        <div class="grid2 modalGrid">
+          <div class="stack">
+            <label class="label">Sezione</label>
+            <select class="select" id="entrySection">
+              <option value="museo">Museo</option>
+              <option value="journal">Love Journal</option>
+            </select>
+
+            <label class="label">Data</label>
+            <input class="input" id="entryDate" placeholder="YYYY-MM-DD" />
+
+            <label class="label">Titolo</label>
+            <input class="input" id="entryTitle" placeholder="Titolo…" />
+
+            <label class="label">Testo</label>
+            <textarea class="textarea" id="entryText" placeholder="Scrivi…" style="min-height:140px;"></textarea>
+
+            <div class="row">
+              <button class="btn" id="btnSaveEntry">Salva</button>
+              <button class="btn btn--ghost" id="btnDeleteEntry">Elimina</button>
+            </div>
+          </div>
+
+          <div class="stack">
+            <label class="label">Foto</label>
+            <div class="photoRow">
+              <label class="filebtn">
+                Aggiungi foto
+                <input type="file" accept="image/*" multiple id="entryPhotos" />
+              </label>
+              <button class="btn btn--ghost" id="btnClearEntryPhotos">Rimuovi tutte</button>
+            </div>
+
+            <div class="thumbs" id="entryThumbs"></div>
+
+            <div class="card card--inner">
+              <h3>Tip</h3>
+              <p class="muted">
+                Le foto vengono compresse e salvate localmente (IndexedDB). Restano anche offline.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal__backdrop" data-close="entry"></div>
+    </div>
+
+    <!-- MODAL: PHOTO VIEW -->
+    <div class="modal hidden" id="modalPhoto">
+      <div class="modal__sheet modal__sheet--photo">
+        <div class="modal__head">
+          <strong>Foto</strong>
+          <button class="iconbtn" id="btnClosePhoto">×</button>
+        </div>
+        <div class="photoView">
+          <img id="photoViewImg" alt="foto" />
+        </div>
+      </div>
+      <div class="modal__backdrop" data-close="photo"></div>
     </div>
 
     <script src="./app.js"></script>
